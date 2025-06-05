@@ -13,7 +13,7 @@ class MainController extends Controller
         return view('home');
     }
 
-    public function  generateExercises(Request $request)
+    public function  generateExercises(Request $request): View
     {
         //Validar os campos do formulario
         $request->validate([
@@ -93,8 +93,7 @@ class MainController extends Controller
                 'sollution' => "$exercise  $sollution"
             ];
         }
-
-        dd($exercises);
+        return view('operations', ['exercises' => $exercises]);
     }
     public function  printExercises(Request $request)
     {
