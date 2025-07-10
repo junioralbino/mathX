@@ -55,9 +55,11 @@ class MainController extends Controller
             $exercises[] =  $this->generateExercise($index, $operations, $min, $max);
         }
         //place exercises in session
-        session(['exercises ' => $exercises]);
+        session(['exercises' => $exercises]);
 
-        return view('operations', ['exercises' => $exercises]);
+        return view('operations')->with([
+            'exercises' => $exercises
+        ]);
     }
     public function  printExercises()
     {
@@ -66,13 +68,21 @@ class MainController extends Controller
             return redirect()->route('home');
         }
         $exercises = session('exercises');
-
         echo '<pre>';
-        echo '<h1> Exercicios de Matematicas (' . env('APP_NAME') . ')</h1>';
-        echo '<hr>';
+        echo '<h1>Exercicios de Matematica (' . env('APP_NAME') . ')</h1>';
+        echo '</pre>';
+
 
         foreach ($exercises as $exercise) {
-            echo '<h2><small>' . str_pad($exercise['exercise_number'], 2, "0", STR_PAD_LEFT) . ' >> <small>' . $exercise['exercise'] . '</h2>';
+            echo '<h2><small>' . str_pad($exercise['exercise_number'], 2, "0", STR_PAD_LEFT) . ' >> </small>' . $exercise['exercise'] . '</h2>';
+        }
+
+
+        echo '<hr>';
+        echo '<small>Soluções</small><br>';
+
+        foreach ($exercises as $exercise) {
+            echo '<small>' . str_pad($exercise['exercise_number'], 2, "0", STR_PAD_LEFT) . ' >> ' . $exercise['sollution'] . '</small><br>';
         }
     }
     public function  exportExercises(Request $request)
